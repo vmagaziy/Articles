@@ -4,7 +4,9 @@ struct AppCoordinator {
     let rootViewController: UIViewController
     
     init() {
-        let vc = FeedViewController()
+        let dataProvider = FeedDataProvider()
+
+        let vc = FeedViewController(dataProvider: dataProvider)
         let nc = UINavigationController(rootViewController: vc)
         
         rootViewController = nc
