@@ -14,7 +14,8 @@ final class FeedViewController: TableViewController<ArticleType> {
         
         title = NSLocalizedString("Articles", comment: "Title for the list of articles")
                 
-        didReload = { [unowned self] in self.loadData() }
+        didReload = { [unowned self] in self.loadData {} }
+        didRequestRefresh = { [unowned self] in self.loadData($0) }
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -30,10 +31,10 @@ final class FeedViewController: TableViewController<ArticleType> {
         
     override func viewDidLoad() {
         super.viewDidLoad()
-        loadData()
+        loadData {}
     }
     
-    private func loadData() {
+    private func loadData(_ completion: @escaping () -> Void) {
         source = .loading
 
         dataProvider.articles().observe { [weak self] result in
@@ -43,6 +44,7 @@ final class FeedViewController: TableViewController<ArticleType> {
             case .failure(let error):
                 self?.source = .failure(error)
             }
+            completion()
         }
     }
 }

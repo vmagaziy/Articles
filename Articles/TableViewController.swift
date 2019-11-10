@@ -28,6 +28,7 @@ class TableViewController<Item>: UITableViewController {
 
     var didSelect: (Item) -> Void = { _ in }
     var didReload: (() -> Void)? // called on retry when failure
+    var didRequestRefresh: ((_ completion: @escaping () -> Void) -> Void)? // if set, a refresh control is added to the table view; closure is executed when pull to refresh is initiated and `completion` closure is to be executed when refresh is finished
 
     init(style: UITableView.Style, cellDescriptor: @escaping (Item) -> TableViewCellDescriptor) {
         self.cellDescriptor = cellDescriptor
@@ -46,14 +47,15 @@ class TableViewController<Item>: UITableViewController {
             case .unknown:
                 fatalError("Invalid transition to unknown state")
             case .loading:
+                refreshControl = nil
                 navigationItem.rightBarButtonItem = nil
-                
                 tableView.separatorStyle = .none
                 
                 let activityIndicatorView = UIActivityIndicatorView(style: .gray)
                 activityIndicatorView.startAnimating()
                 tableView.backgroundView = activityIndicatorView
             case .failure(let error):
+                refreshControl = nil
                 navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(reload))
                 tableView.separatorStyle = .none
                 
@@ -66,6 +68,12 @@ class TableViewController<Item>: UITableViewController {
                 
                 tableView.backgroundView = label
             case .items:
+                if didRequestRefresh != nil && refreshControl == nil {
+                    let refreshControl = UIRefreshControl()
+                    refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
+                    self.refreshControl = refreshControl
+                }
+                
                 navigationItem.rightBarButtonItem = nil
                 tableView.separatorStyle = .singleLine
                 tableView.backgroundView = nil
@@ -120,4 +128,12 @@ class TableViewController<Item>: UITableViewController {
     @objc private func reload() {
         didReload?()
     }
+    
+    @objc private func refresh() {
+        refreshControl?.beginRefreshing()
+        didRequestRefresh? {
+            self.refreshControl?.endRefreshing()
+        }
+    }
+
 }
