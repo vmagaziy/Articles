@@ -10,7 +10,10 @@ struct FeedDataProvider: FeedDataProviding {
         }
         
         let promise = Promise<[ArticleType]>()
-        promise.resolve(with: articles)
+        DispatchQueue.global().asyncAfter(deadline: .now() + 1) {
+            promise.resolve(with: articles)
+        }
+
         return promise
     }
 }
