@@ -1,6 +1,6 @@
 import UIKit
 
-final class FeedViewController: UIViewController {
+final class FeedViewController: TableViewController<ArticleType> {
     private let dataProvider: FeedDataProviding
     
     init(dataProvider: FeedDataProviding) {
