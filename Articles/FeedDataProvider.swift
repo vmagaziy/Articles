@@ -1,7 +1,7 @@
 import Foundation
 
 struct FeedDataProvider: FeedDataProviding {
-    func articles() -> [ArticleType] {
+    func articles() -> Future<[ArticleType]> {
         var articles: [Article] = []
         
         let count = Int(arc4random_uniform(1000))
@@ -9,7 +9,9 @@ struct FeedDataProvider: FeedDataProviding {
             articles.append(Article(title: "TITLE: \(index)", image: URL(string: "https://via.placeholder.com/\(index)")!, sections: []))
         }
         
-        return articles
+        let promise = Promise<[ArticleType]>()
+        promise.resolve(with: articles)
+        return promise
     }
 }
 
