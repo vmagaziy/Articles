@@ -18,6 +18,7 @@ struct TableViewCellDescriptor {
 enum TableViewSource<Item> {
     case unknown
     case loading
+    case failure(Error)
     case items([Item])
 }
 
@@ -26,7 +27,8 @@ class TableViewController<Item>: UITableViewController {
     private var reuseIdentifiers: Set<String> = []
 
     var didSelect: (Item) -> Void = { _ in }
-    
+    var didReload: (() -> Void)? // called on retry when failure
+
     init(style: UITableView.Style, cellDescriptor: @escaping (Item) -> TableViewCellDescriptor) {
         self.cellDescriptor = cellDescriptor
         super.init(style: style)
@@ -44,17 +46,31 @@ class TableViewController<Item>: UITableViewController {
             case .unknown:
                 fatalError("Invalid transition to unknown state")
             case .loading:
+                navigationItem.rightBarButtonItem = nil
+                
                 tableView.separatorStyle = .none
                 
                 let activityIndicatorView = UIActivityIndicatorView(style: .gray)
                 activityIndicatorView.startAnimating()
                 tableView.backgroundView = activityIndicatorView
-
+            case .failure(let error):
+                navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(reload))
+                tableView.separatorStyle = .none
+                
+                let label = UILabel()
+                label.text = error.localizedDescription
+                label.font = UIFont.preferredFont(forTextStyle: .title1)
+                label.numberOfLines = 0
+                label.adjustsFontForContentSizeCategory = true
+                label.textAlignment = .center
+                
+                tableView.backgroundView = label
             case .items:
+                navigationItem.rightBarButtonItem = nil
                 tableView.separatorStyle = .singleLine
                 tableView.backgroundView = nil
             }
-            
+    
             tableView.reloadData()
         }
     }
@@ -68,7 +84,7 @@ class TableViewController<Item>: UITableViewController {
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch source {
-        case .unknown, .loading: return 0
+        case .unknown, .loading, .failure: return 0
         case .items(let items): return items.count
         }
     }
@@ -94,10 +110,14 @@ class TableViewController<Item>: UITableViewController {
     
     private func item(for indexPath: IndexPath) -> Item {
         switch source {
-        case .unknown, .loading:
+        case .unknown, .loading, .failure:
             fatalError("Not to be requested for this state")
         case .items(let items):
             return items[indexPath.row]
         }
+    }
+    
+    @objc private func reload() {
+        didReload?()
     }
 }
