@@ -11,12 +11,21 @@ final class FeedViewController: TableViewController<ArticleType> {
                 cell.configure(for: article)
             }
         }
+        
+        title = NSLocalizedString("Articles", comment: "Title for the list of articles")
                 
         didReload = { [unowned self] in self.loadData() }
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        if let splitViewController = splitViewController {
+            clearsSelectionOnViewWillAppear = splitViewController.isCollapsed
+        }
+        super.viewWillAppear(animated)
     }
         
     override func viewDidLoad() {
