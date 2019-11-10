@@ -1,17 +1,23 @@
+import Dispatch
+
 class Future<Value> {
     fileprivate var result: Result<Value, Error>? {
         didSet { result.map(report) }
     }
     
-    private lazy var callbacks = [(Result<Value, Error>) -> Void]()
+    typealias Callback = (Result<Value, Error>) -> Void
+    private lazy var callbacks = [(Callback, DispatchQueue)]()
 
-    func observe(_ callback: @escaping (Result<Value, Error>) -> Void) {
-        callbacks.append(callback)
+    func observe(on queue: DispatchQueue = .main, _ callback: @escaping Callback) {
+        callbacks.append((callback, queue))
         result.map(callback)
     }
 
     private func report(result: Result<Value, Error>) {
-        callbacks.forEach { $0(result) }
+        callbacks.forEach {
+            let (callback, queue) = $0
+            queue.async { callback(result) }
+        }
     }
 }
 
