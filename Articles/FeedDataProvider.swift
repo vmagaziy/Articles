@@ -15,10 +15,10 @@ struct FeedDataProvider: FeedDataProviding {
         
         let promise = Promise<[ArticleType]>()
         DispatchQueue.global().asyncAfter(deadline: .now() + 1) {
-            if arc4random() % 2 == 0 {
-                promise.resolve(with: articles)
-            } else {
+            if arc4random() % 7 == 0 {
                 promise.reject(with: Error.unknown)
+            } else {
+                promise.resolve(with: articles)
             }
         }
 
