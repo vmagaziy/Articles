@@ -31,19 +31,33 @@ final class FeedViewController: TableViewController<ArticleType> {
         
     override func viewDidLoad() {
         super.viewDidLoad()
+        source = .loading
         loadData {}
     }
     
     private func loadData(_ completion: @escaping () -> Void) {
-        source = .loading
-
+        let errorMessage = NSLocalizedString("Failed to get articles", comment: "Text shown on failed to load articles")
         dataProvider.articles().observe { [weak self] result in
+            guard let self = self else { return }
+            
             switch result {
             case .success(let articles):
-                self?.source = .sections(articles.map { TableViewSection<ArticleType>(title: nil, items: [$0]) })
+                if articles.isEmpty {
+                    self.source = .failure(errorMessage)
+                } else {
+                    self.source = .sections(articles.map { TableViewSection<ArticleType>(title: nil, items: [$0]) })
+                }
             case .failure(let error):
-                self?.source = .failure(error)
+                if case .sections(let sections) = self.source, !sections.isEmpty {
+                    // error happened on pull-to-refresh as sections are not empty, so don't replace current results being shown, but show an alert indicating a failure
+                    let alert = UIAlertController(title: errorMessage, message: error.localizedDescription, preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Action title in alert"), style: .default, handler: nil))
+                    self.present(alert, animated: true, completion: nil)
+                } else {
+                    self.source = .failure(error)
+                }
             }
+            
             completion()
         }
     }
