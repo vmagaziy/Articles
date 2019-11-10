@@ -21,12 +21,12 @@
 		9401FD8F237890D700053B0C /* HTTPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9401FD8E237890D700053B0C /* HTTPClient.swift */; };
 		9401FD912378918700053B0C /* HTTPClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9401FD902378918700053B0C /* HTTPClientTests.swift */; };
 		9401FD93237891A400053B0C /* MockURLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9401FD92237891A400053B0C /* MockURLSession.swift */; };
-		9401FD95237891F100053B0C /* String+Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9401FD94237891F100053B0C /* String+Error.swift */; };
 		9401FD97237895F700053B0C /* ImageFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9401FD96237895F700053B0C /* ImageFetcher.swift */; };
 		9401FD992378A0CB00053B0C /* ImageFetcherTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9401FD982378A0CB00053B0C /* ImageFetcherTests.swift */; };
 		9401FD9B2378A26000053B0C /* UIImageView+Fetch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9401FD9A2378A26000053B0C /* UIImageView+Fetch.swift */; };
 		9401FD9D2378A2F300053B0C /* ImageFetchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9401FD9C2378A2F300053B0C /* ImageFetchTests.swift */; };
 		9401FD9F2378A31600053B0C /* MockImageFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9401FD9E2378A31600053B0C /* MockImageFetcher.swift */; };
+		9401FDA02378A98700053B0C /* String+Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9401FD94237891F100053B0C /* String+Error.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -107,6 +107,7 @@
 		9401FD59237845A900053B0C /* Articles */ = {
 			isa = PBXGroup;
 			children = (
+				9401FD94237891F100053B0C /* String+Error.swift */,
 				9401FD9A2378A26000053B0C /* UIImageView+Fetch.swift */,
 				9401FD96237895F700053B0C /* ImageFetcher.swift */,
 				9401FD8E237890D700053B0C /* HTTPClient.swift */,
@@ -132,7 +133,6 @@
 				9401FD75237845AB00053B0C /* Info.plist */,
 				9401FD902378918700053B0C /* HTTPClientTests.swift */,
 				9401FD92237891A400053B0C /* MockURLSession.swift */,
-				9401FD94237891F100053B0C /* String+Error.swift */,
 				9401FD982378A0CB00053B0C /* ImageFetcherTests.swift */,
 				9401FD9C2378A2F300053B0C /* ImageFetchTests.swift */,
 				9401FD9E2378A31600053B0C /* MockImageFetcher.swift */,
@@ -282,6 +282,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9401FD5B237845A900053B0C /* AppDelegate.swift in Sources */,
+				9401FDA02378A98700053B0C /* String+Error.swift in Sources */,
 				9401FD9B2378A26000053B0C /* UIImageView+Fetch.swift in Sources */,
 				9401FD8923784E3500053B0C /* TableViewController.swift in Sources */,
 				9401FD8B23785B3000053B0C /* Future.swift in Sources */,
@@ -302,7 +303,6 @@
 				9401FD9D2378A2F300053B0C /* ImageFetchTests.swift in Sources */,
 				9401FD93237891A400053B0C /* MockURLSession.swift in Sources */,
 				9401FD992378A0CB00053B0C /* ImageFetcherTests.swift in Sources */,
-				9401FD95237891F100053B0C /* String+Error.swift in Sources */,
 				9401FD912378918700053B0C /* HTTPClientTests.swift in Sources */,
 				9401FD9F2378A31600053B0C /* MockImageFetcher.swift in Sources */,
 				9401FD74237845AB00053B0C /* ArticlesTests.swift in Sources */,
