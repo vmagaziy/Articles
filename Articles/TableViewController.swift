@@ -17,6 +17,7 @@ struct TableViewCellDescriptor {
 
 enum TableViewSource<Item> {
     case unknown
+    case loading
     case items([Item])
 }
 
@@ -42,9 +43,16 @@ class TableViewController<Item>: UITableViewController {
             switch source {
             case .unknown:
                 fatalError("Invalid transition to unknown state")
+            case .loading:
+                tableView.separatorStyle = .none
+                
+                let activityIndicatorView = UIActivityIndicatorView(style: .gray)
+                activityIndicatorView.startAnimating()
+                tableView.backgroundView = activityIndicatorView
+
             case .items:
-                // TODO: IMPLEMENTATION GOES HERE
-                break
+                tableView.separatorStyle = .singleLine
+                tableView.backgroundView = nil
             }
             
             tableView.reloadData()
@@ -60,7 +68,7 @@ class TableViewController<Item>: UITableViewController {
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch source {
-        case .unknown: return 0
+        case .unknown, .loading: return 0
         case .items(let items): return items.count
         }
     }
@@ -86,7 +94,7 @@ class TableViewController<Item>: UITableViewController {
     
     private func item(for indexPath: IndexPath) -> Item {
         switch source {
-        case .unknown:
+        case .unknown, .loading:
             fatalError("Not to be requested for this state")
         case .items(let items):
             return items[indexPath.row]

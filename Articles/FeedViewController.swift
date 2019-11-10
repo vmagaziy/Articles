@@ -23,6 +23,8 @@ final class FeedViewController: TableViewController<ArticleType> {
     }
     
     private func loadData() {
+        source = .loading
+
         dataProvider.articles().observe { [weak self] result in
             switch result {
             case .success(let articles):
