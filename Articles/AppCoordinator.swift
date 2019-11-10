@@ -16,6 +16,16 @@ final class AppCoordinator: NSObject {
         
         let articleVC = ArticleViewController()
         let articleNC = UINavigationController(rootViewController: articleVC)
+        
+        feedVC.didSelect = { [articleVC, articleNC] article in
+            splitViewController.showDetailViewController(articleNC, sender: self)
+            
+            articleVC.navigationItem.leftBarButtonItem = splitViewController.displayModeButtonItem
+            articleNC.navigationItem.leftItemsSupplementBackButton = true
+            
+            articleNC.popToRootViewController(animated: true)
+            articleVC.article = article
+        }
 
         splitViewController.viewControllers = [feedNC, articleNC]
         splitViewController.delegate = self
