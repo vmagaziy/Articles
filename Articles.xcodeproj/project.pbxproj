@@ -22,6 +22,8 @@
 		9401FD912378918700053B0C /* HTTPClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9401FD902378918700053B0C /* HTTPClientTests.swift */; };
 		9401FD93237891A400053B0C /* MockURLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9401FD92237891A400053B0C /* MockURLSession.swift */; };
 		9401FD95237891F100053B0C /* String+Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9401FD94237891F100053B0C /* String+Error.swift */; };
+		9401FD97237895F700053B0C /* ImageFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9401FD96237895F700053B0C /* ImageFetcher.swift */; };
+		9401FD992378A0CB00053B0C /* ImageFetcherTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9401FD982378A0CB00053B0C /* ImageFetcherTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,6 +57,8 @@
 		9401FD902378918700053B0C /* HTTPClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPClientTests.swift; sourceTree = "<group>"; };
 		9401FD92237891A400053B0C /* MockURLSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLSession.swift; sourceTree = "<group>"; };
 		9401FD94237891F100053B0C /* String+Error.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Error.swift"; sourceTree = "<group>"; };
+		9401FD96237895F700053B0C /* ImageFetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageFetcher.swift; sourceTree = "<group>"; };
+		9401FD982378A0CB00053B0C /* ImageFetcherTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageFetcherTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -97,6 +101,7 @@
 		9401FD59237845A900053B0C /* Articles */ = {
 			isa = PBXGroup;
 			children = (
+				9401FD96237895F700053B0C /* ImageFetcher.swift */,
 				9401FD8E237890D700053B0C /* HTTPClient.swift */,
 				9401FD8A23785B3000053B0C /* Future.swift */,
 				9401FD8423784C1D00053B0C /* FeedDataProviding.swift */,
@@ -121,6 +126,7 @@
 				9401FD902378918700053B0C /* HTTPClientTests.swift */,
 				9401FD92237891A400053B0C /* MockURLSession.swift */,
 				9401FD94237891F100053B0C /* String+Error.swift */,
+				9401FD982378A0CB00053B0C /* ImageFetcherTests.swift */,
 			);
 			path = ArticlesTests;
 			sourceTree = "<group>";
@@ -275,6 +281,7 @@
 				9401FD5F237845A900053B0C /* FeedViewController.swift in Sources */,
 				9401FD8723784C6500053B0C /* FeedDataProvider.swift in Sources */,
 				9401FD61237845A900053B0C /* ArticleViewController.swift in Sources */,
+				9401FD97237895F700053B0C /* ImageFetcher.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -283,6 +290,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9401FD93237891A400053B0C /* MockURLSession.swift in Sources */,
+				9401FD992378A0CB00053B0C /* ImageFetcherTests.swift in Sources */,
 				9401FD95237891F100053B0C /* String+Error.swift in Sources */,
 				9401FD912378918700053B0C /* HTTPClientTests.swift in Sources */,
 				9401FD74237845AB00053B0C /* ArticlesTests.swift in Sources */,
