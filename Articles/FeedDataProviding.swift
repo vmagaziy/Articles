@@ -1,7 +1,7 @@
 import Foundation
 
 protocol FeedDataProviding {
-    func articles() -> [ArticleType] // TODO: MAKE ASYNC
+    func articles() -> Future<[ArticleType]>
 }
 
 protocol ArticleType {
