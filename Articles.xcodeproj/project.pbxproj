@@ -40,6 +40,7 @@
 		9401FD6F237845AB00053B0C /* ArticlesTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ArticlesTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9401FD73237845AB00053B0C /* ArticlesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticlesTests.swift; sourceTree = "<group>"; };
 		9401FD75237845AB00053B0C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9401FD7E237848F300053B0C /* .swiftlint.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,6 +64,7 @@
 		9401FD4E237845A900053B0C = {
 			isa = PBXGroup;
 			children = (
+				9401FD7E237848F300053B0C /* .swiftlint.yml */,
 				9401FD59237845A900053B0C /* Articles */,
 				9401FD72237845AB00053B0C /* ArticlesTests */,
 				9401FD58237845A900053B0C /* Products */,
@@ -109,6 +111,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 9401FD78237845AB00053B0C /* Build configuration list for PBXNativeTarget "Articles" */;
 			buildPhases = (
+				9401FD802378490000053B0C /* Lint Swift Sources */,
 				9401FD53237845A900053B0C /* Sources */,
 				9401FD54237845A900053B0C /* Frameworks */,
 				9401FD55237845A900053B0C /* Resources */,
@@ -126,6 +129,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 9401FD7B237845AB00053B0C /* Build configuration list for PBXNativeTarget "ArticlesTests" */;
 			buildPhases = (
+				9401FD812378492900053B0C /* Lint Swift Sources */,
 				9401FD6B237845AB00053B0C /* Sources */,
 				9401FD6C237845AB00053B0C /* Frameworks */,
 				9401FD6D237845AB00053B0C /* Resources */,
@@ -197,6 +201,45 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		9401FD802378490000053B0C /* Lint Swift Sources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Lint Swift Sources";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftlint >/dev/null; then\n    swiftlint\nfi\n\n";
+		};
+		9401FD812378492900053B0C /* Lint Swift Sources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Lint Swift Sources";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftlint >/dev/null; then\n    swiftlint\nfi\n\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		9401FD53237845A900053B0C /* Sources */ = {
