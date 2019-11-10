@@ -80,6 +80,10 @@ class TableViewController<Item>: UITableViewController {
         return cell
     }
     
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        didSelect(item(for: indexPath))
+    }
+    
     private func item(for indexPath: IndexPath) -> Item {
         switch source {
         case .unknown:
