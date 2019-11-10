@@ -15,11 +15,21 @@ struct TableViewCellDescriptor {
     }
 }
 
+struct TableViewSection<Item> {
+    var title: String?
+    var items: [Item]
+    init(title: String?, items: [Item]) {
+        self.title = title
+        self.items = items
+    }
+}
+
 enum TableViewSource<Item> {
     case unknown
     case loading
     case failure(Error)
     case items([Item])
+    case sections([TableViewSection<Item>])
 }
 
 class TableViewController<Item>: UITableViewController {
@@ -67,7 +77,7 @@ class TableViewController<Item>: UITableViewController {
                 label.textAlignment = .center
                 
                 tableView.backgroundView = label
-            case .items:
+            case .items, .sections:
                 if didRequestRefresh != nil && refreshControl == nil {
                     let refreshControl = UIRefreshControl()
                     refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
@@ -90,13 +100,28 @@ class TableViewController<Item>: UITableViewController {
         tableView.cellLayoutMarginsFollowReadableWidth = true
     }
     
+    override func numberOfSections(in tableView: UITableView) -> Int {
+        switch source {
+        case .unknown, .loading, .items, .failure: return 1
+        case .sections(let sections): return sections.count
+        }
+    }
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch source {
         case .unknown, .loading, .failure: return 0
         case .items(let items): return items.count
+        case .sections(let sections): return sections[section].items.count
         }
     }
     
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        switch source {
+        case .unknown, .loading, .failure, .items: return nil
+        case .sections(let sections): return sections[section].title
+        }
+    }
+
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let descriptor = cellDescriptor(item(for: indexPath))
         
@@ -122,6 +147,9 @@ class TableViewController<Item>: UITableViewController {
             fatalError("Not to be requested for this state")
         case .items(let items):
             return items[indexPath.row]
+        case .sections(let sections):
+            let section = sections[indexPath.section]
+            return section.items[indexPath.row]
         }
     }
     

@@ -6,7 +6,7 @@ final class FeedViewController: TableViewController<ArticleType> {
     init(dataProvider: FeedDataProviding) {
         self.dataProvider = dataProvider
         
-        super.init(style: .plain) { article -> TableViewCellDescriptor in
+        super.init(style: .grouped) { article -> TableViewCellDescriptor in
             return TableViewCellDescriptor(reuseIdentifier: "teaser") { (cell: TeaserTableViewCell) in
                 cell.configure(for: article)
             }
@@ -40,7 +40,7 @@ final class FeedViewController: TableViewController<ArticleType> {
         dataProvider.articles().observe { [weak self] result in
             switch result {
             case .success(let articles):
-                self?.source = .items(articles)
+                self?.source = .sections(articles.map { TableViewSection<ArticleType>(title: nil, items: [$0]) })
             case .failure(let error):
                 self?.source = .failure(error)
             }
