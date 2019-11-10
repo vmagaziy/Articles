@@ -2,7 +2,14 @@ import Foundation
 
 struct FeedDataProvider: FeedDataProviding {
     func articles() -> [ArticleType] {
-        return []
+        var articles: [Article] = []
+        
+        let count = Int(arc4random_uniform(1000))
+        for index in 0..<count {
+            articles.append(Article(title: "TITLE: \(index)", image: URL(string: "https://via.placeholder.com/\(index)")!, sections: []))
+        }
+        
+        return articles
     }
 }
 
