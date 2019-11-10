@@ -1,6 +1,10 @@
 import Foundation
 
 struct FeedDataProvider: FeedDataProviding {
+    enum Error: Swift.Error {
+        case unknown
+    }
+    
     func articles() -> Future<[ArticleType]> {
         var articles: [Article] = []
         
@@ -11,7 +15,11 @@ struct FeedDataProvider: FeedDataProviding {
         
         let promise = Promise<[ArticleType]>()
         DispatchQueue.global().asyncAfter(deadline: .now() + 1) {
-            promise.resolve(with: articles)
+            if arc4random() % 2 == 0 {
+                promise.resolve(with: articles)
+            } else {
+                promise.reject(with: Error.unknown)
+            }
         }
 
         return promise

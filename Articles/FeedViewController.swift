@@ -11,6 +11,8 @@ final class FeedViewController: TableViewController<ArticleType> {
                 cell.configure(for: article)
             }
         }
+                
+        didReload = { [unowned self] in self.loadData() }
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -30,7 +32,7 @@ final class FeedViewController: TableViewController<ArticleType> {
             case .success(let articles):
                 self?.source = .items(articles)
             case .failure(let error):
-                print("error: \(error)") // TODO: do proper error handling
+                self?.source = .failure(error)
             }
         }
     }
