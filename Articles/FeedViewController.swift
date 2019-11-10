@@ -40,7 +40,28 @@ final class FeedViewController: TableViewController<ArticleType> {
 
 private class TeaserTableViewCell: UITableViewCell {
     func configure(for article: ArticleType) {
-        textLabel?.text = article.title
+        textLabel?.attributedText = article.attributedText
         textLabel?.numberOfLines = 0
     }
+}
+
+private extension ArticleType {
+    var attributedText: NSAttributedString {
+        let attributedText = NSMutableAttributedString()
+        
+        let separator = NSAttributedString(string: "\n", attributes: [.font: UIFont.systemFont(ofSize: 5)])
+        
+        let titleText = NSAttributedString(string: title, attributes: [.font: UIFont.preferredFont(forTextStyle: .title2)])
+        attributedText.append(titleText)
+        
+        if let publisher = publisher {
+            attributedText.append(separator)
+         
+            let publisherText = NSAttributedString(string: publisher, attributes: [.font: UIFont.preferredFont(forTextStyle: .caption2), .foregroundColor: UIColor.gray])
+            attributedText.append(publisherText)
+        }
+        
+        return attributedText
+    }
+
 }
