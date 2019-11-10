@@ -1,14 +1,35 @@
 import UIKit
 
-struct AppCoordinator {
+final class AppCoordinator: NSObject {
     let rootViewController: UIViewController
     
-    init() {
+    override init() {
+        let splitViewController = UISplitViewController()
+        rootViewController = splitViewController
+        
+        super.init()
+
         let dataProvider = FeedDataProvider()
 
-        let vc = FeedViewController(dataProvider: dataProvider)
-        let nc = UINavigationController(rootViewController: vc)
+        let feedVC = FeedViewController(dataProvider: dataProvider)
+        let feedNC = UINavigationController(rootViewController: feedVC)
         
-        rootViewController = nc
+        let articleVC = ArticleViewController()
+        let articleNC = UINavigationController(rootViewController: articleVC)
+
+        splitViewController.viewControllers = [feedNC, articleNC]
+        splitViewController.delegate = self
+        articleNC.navigationItem.leftBarButtonItem = splitViewController.displayModeButtonItem
+    }
+}
+
+extension AppCoordinator: UISplitViewControllerDelegate {
+    func splitViewController(_ splitViewController: UISplitViewController,
+                             collapseSecondary secondaryViewController: UIViewController,
+                             onto primaryViewController: UIViewController) -> Bool {
+        guard let articleNC = secondaryViewController as? UINavigationController else { fatalError() }
+        guard let articleVC = articleNC.topViewController as? ArticleViewController else { return false }
+        guard articleVC.article == nil else { return false }
+        return true // collapse is handled; secondary controller will be discarded
     }
 }
