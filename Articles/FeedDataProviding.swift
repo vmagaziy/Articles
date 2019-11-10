@@ -7,6 +7,7 @@ protocol FeedDataProviding {
 protocol ArticleType {
     var title: String { get }
     var image: URL? { get }
+    var publisher: String? { get }
     var sections: [SectionType] { get }
 }
 
