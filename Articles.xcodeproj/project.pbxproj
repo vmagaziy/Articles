@@ -67,6 +67,7 @@
 		9401FD9E2378A31600053B0C /* MockImageFetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockImageFetcher.swift; sourceTree = "<group>"; };
 		9468DCDE2379E824003F2D92 /* TextAttachment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextAttachment.swift; sourceTree = "<group>"; };
 		9468DCE02379E84C003F2D92 /* ArticleTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleTextView.swift; sourceTree = "<group>"; };
+		9468DCE22379F8E8003F2D92 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -90,6 +91,7 @@
 		9401FD4E237845A900053B0C = {
 			isa = PBXGroup;
 			children = (
+				9468DCE22379F8E8003F2D92 /* README.md */,
 				9401FD7E237848F300053B0C /* .swiftlint.yml */,
 				9401FD59237845A900053B0C /* Articles */,
 				9401FD72237845AB00053B0C /* ArticlesTests */,
