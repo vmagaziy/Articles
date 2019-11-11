@@ -74,9 +74,16 @@ private class TeaserTableViewCell: UITableViewCell {
     private let teaserImageView = UIImageView()
     private let teaserTextLabel = UILabel()
     
+    private let highlightView: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor(white: 0.0, alpha: 0.1)
+        view.alpha = 0
+        return view
+    }()
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        [teaserImageView, teaserTextLabel].forEach(contentView.addSubview)
+        [teaserImageView, teaserTextLabel, highlightView].forEach(contentView.addSubview)
         
         teaserTextLabel.numberOfLines = 0
         
@@ -86,6 +93,17 @@ private class TeaserTableViewCell: UITableViewCell {
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func setHighlighted(_ highlighted: Bool, animated: Bool) {
+        func updateHighlightView() {
+            highlightView.alpha = highlighted ? 1 : 0
+        }
+        if animated {
+            UIView.animate(withDuration: 0.15, animations: updateHighlightView)
+        } else {
+            updateHighlightView()
+        }
     }
     
     override func sizeThatFits(_ size: CGSize) -> CGSize {
@@ -99,6 +117,10 @@ private class TeaserTableViewCell: UITableViewCell {
     }
     
     override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        highlightView.frame = bounds
+        
         let imageHeight = teaserImageView.isHidden ? 0 : bounds.width / TeaserTableViewCell.imageRatio
         teaserImageView.frame = CGRect(x: 0, y: 0, width: bounds.width, height: imageHeight)
         
