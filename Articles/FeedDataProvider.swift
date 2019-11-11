@@ -9,7 +9,7 @@ struct FeedDataProvider: FeedDataProviding {
         self.httpClient = httpClient
     }
 
-    func articles() -> Future<[ArticleType]> {
+    func articles() -> Future<[Article]> {
         return httpClient.load(url: FeedDataProvider.endpointURL).transformed { data in
             let payload = try JSONDecoder().decode(Payload.self, from: data)
             return payload.articles
@@ -18,10 +18,10 @@ struct FeedDataProvider: FeedDataProviding {
 }
 
 private struct Payload: Decodable {
-    let articles: [Article]
+    let articles: [ArticleImpl]
 }
 
-private struct Article: Decodable, ArticleType {
+private struct ArticleImpl: Decodable, Article {
     private enum CodingKeys: String, CodingKey {
         case title, image, publisher, sectionsImpl = "sections"
     }
@@ -29,21 +29,21 @@ private struct Article: Decodable, ArticleType {
     let title: String
     let image: URL?
     let publisher: String?
-    let sectionsImpl: [Section]
+    let sectionsImpl: [SectionImpl]
 
-    var sections: [SectionType] { sectionsImpl }
+    var sections: [Section] { sectionsImpl }
 }
 
-private struct Section: Decodable, SectionType {
+private struct SectionImpl: Decodable, Section {
     private enum CodingKeys: String, CodingKey {
         case title, bodyElements = "body_elements"
     }
 
     let title: String?
-    let bodyElements: [BodyElementType]
+    let bodyElements: [BodyElement]
 }
 
-extension BodyElementType: Decodable {
+extension BodyElement: Decodable {
     private enum Keys: String, CodingKey {
         case imageURL = "image_url"
     }
@@ -55,7 +55,7 @@ extension BodyElementType: Decodable {
             let url = try json.decode(URL.self, forKey: .imageURL)
             self = .image(url)
         } else {
-            throw BodyElementType.decodingError(for: decoder)
+            throw BodyElement.decodingError(for: decoder)
         }
     }
 
@@ -67,4 +67,3 @@ extension BodyElementType: Decodable {
         return .typeMismatch(self, .init(codingPath: decoder.codingPath, debugDescription: description))
     }
 }
-

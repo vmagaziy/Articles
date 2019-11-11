@@ -24,7 +24,7 @@ final class ArticleViewController: UIViewController {
         }
     }
     
-    var article: ArticleType? {
+    var article: Article? {
         didSet {
             title = article?.title
             if let article = article {
@@ -53,13 +53,13 @@ final class ArticleViewController: UIViewController {
     }
 }
 
-private extension ArticleType {
+private extension Article {
     var attributedText: NSAttributedString {
         return sections.map { $0.attributedText }.joined("\n\n")
     }
 }
 
-private extension SectionType {
+private extension Section {
     var attributedText: NSAttributedString {
         var components: [NSAttributedString] = []
         if let title = title {
@@ -73,7 +73,7 @@ private extension SectionType {
     }
 }
 
-private extension BodyElementType {
+private extension BodyElement {
     var attributedText: NSAttributedString {
         switch self {
         case .image(let url):

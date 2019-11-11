@@ -1,22 +1,22 @@
 import Foundation
 
 protocol FeedDataProviding {
-    func articles() -> Future<[ArticleType]>
+    func articles() -> Future<[Article]>
 }
 
-protocol ArticleType {
+protocol Article {
     var title: String { get }
     var image: URL? { get }
     var publisher: String? { get }
-    var sections: [SectionType] { get }
+    var sections: [Section] { get }
 }
 
-protocol SectionType {
+protocol Section {
     var title: String? { get }
-    var bodyElements: [BodyElementType] { get }
+    var bodyElements: [BodyElement] { get }
 }
 
-enum BodyElementType {
+enum BodyElement {
     case text(String)
     case image(URL)
 }
