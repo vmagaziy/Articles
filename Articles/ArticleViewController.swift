@@ -75,6 +75,8 @@ private extension Section {
 
 private extension BodyElement {
     var attributedText: NSAttributedString {
+        let attributedText: NSAttributedString
+
         switch self {
         case .image(let url):
             let imageView = UIImageView()
@@ -87,20 +89,23 @@ private extension BodyElement {
             }
             imageView.fetchImage(for: url, placeholderImage: placeholderImage)
             let imageAttachment = ImageTextAttachment(view: imageView)
-            return NSAttributedString(attachment: imageAttachment)
+            attributedText = NSAttributedString(attachment: imageAttachment)
         case .text(let string):
-            return NSAttributedString(string: string + "\n", attributes: [.font: UIFont.preferredFont(forTextStyle: .body)])
+            attributedText = NSAttributedString(string: string, attributes: [.font: UIFont.preferredFont(forTextStyle: .body)])
         }
+        
+        let newLineText = NSAttributedString(string: "\n")
+        return [attributedText, newLineText].joined()
     }
 }
 
 extension Sequence where Element: NSAttributedString {
-    func joined(_ separator: NSAttributedString) -> NSAttributedString {
+    func joined(_ separator: NSAttributedString? = nil) -> NSAttributedString {
         var isFirst = true
         return reduce(NSMutableAttributedString()) { result, string in
             if isFirst {
                 isFirst = false
-            } else {
+            } else if let separator = separator {
                 result.append(separator)
             }
             result.append(string)
