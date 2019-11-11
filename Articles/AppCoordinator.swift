@@ -29,7 +29,7 @@ final class AppCoordinator: NSObject {
 
         splitViewController.viewControllers = [feedNC, articleNC]
         splitViewController.delegate = self
-        articleNC.navigationItem.leftBarButtonItem = splitViewController.displayModeButtonItem
+        articleVC.navigationItem.leftBarButtonItem = splitViewController.displayModeButtonItem
     }
 }
 
