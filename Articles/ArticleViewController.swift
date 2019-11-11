@@ -51,6 +51,14 @@ final class ArticleViewController: UIViewController {
 
         noSelectionLabel.frame = view.bounds.inset(by: view.layoutMargins)
     }
+    
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        guard let previousTraitCollection = previousTraitCollection,
+            traitCollection.preferredContentSizeCategory != previousTraitCollection.preferredContentSizeCategory
+            else { return }
+        textView.attributedText = article?.attributedText
+    }
 }
 
 private extension Article {
