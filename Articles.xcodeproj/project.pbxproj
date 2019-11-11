@@ -12,7 +12,6 @@
 		9401FD61237845A900053B0C /* ArticleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9401FD60237845A900053B0C /* ArticleViewController.swift */; };
 		9401FD66237845AB00053B0C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9401FD65237845AB00053B0C /* Assets.xcassets */; };
 		9401FD69237845AB00053B0C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9401FD67237845AB00053B0C /* LaunchScreen.storyboard */; };
-		9401FD74237845AB00053B0C /* ArticlesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9401FD73237845AB00053B0C /* ArticlesTests.swift */; };
 		9401FD832378499600053B0C /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9401FD822378499600053B0C /* AppCoordinator.swift */; };
 		9401FD8523784C1E00053B0C /* FeedDataProviding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9401FD8423784C1D00053B0C /* FeedDataProviding.swift */; };
 		9401FD8723784C6500053B0C /* FeedDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9401FD8623784C6500053B0C /* FeedDataProvider.swift */; };
@@ -50,7 +49,6 @@
 		9401FD68237845AB00053B0C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		9401FD6A237845AB00053B0C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9401FD6F237845AB00053B0C /* ArticlesTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ArticlesTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		9401FD73237845AB00053B0C /* ArticlesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticlesTests.swift; sourceTree = "<group>"; };
 		9401FD75237845AB00053B0C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9401FD7E237848F300053B0C /* .swiftlint.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		9401FD822378499600053B0C /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
@@ -135,7 +133,6 @@
 		9401FD72237845AB00053B0C /* ArticlesTests */ = {
 			isa = PBXGroup;
 			children = (
-				9401FD73237845AB00053B0C /* ArticlesTests.swift */,
 				9401FD75237845AB00053B0C /* Info.plist */,
 				9401FD902378918700053B0C /* HTTPClientTests.swift */,
 				9401FD92237891A400053B0C /* MockURLSession.swift */,
@@ -313,7 +310,6 @@
 				9401FD992378A0CB00053B0C /* ImageFetcherTests.swift in Sources */,
 				9401FD912378918700053B0C /* HTTPClientTests.swift in Sources */,
 				9401FD9F2378A31600053B0C /* MockImageFetcher.swift in Sources */,
-				9401FD74237845AB00053B0C /* ArticlesTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
