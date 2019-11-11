@@ -29,10 +29,15 @@ final class ImageFetcher: ImageFetching {
         return url.path.replacingOccurrences(of: "/", with: "_", options: [], range: nil).replacingOccurrences(of: ":", with: "--", options: [], range: nil)
     }
     
+    static func thumbnailFileName(for url: URL, size: CGSize) -> String {
+        return "thumbnail-\(size)-".appending(fileName(for: url))
+    }
+    
     /// Gets thumbnail from in-memory cache, if found it's returned;
-    /// otherwise the image is loaded and thumbnail is generated and put to
-    /// the in-memory cache.  Since generation of thubnails is considered
-    /// inexpensive, thumbnails are not put to the disk cache.
+    /// otherwise tries to get it from disk cache and if found it's put
+    /// to in-memory cache and returned; otherwise tries to load it from
+    /// the specified url (original image), and upon success it's generated
+    /// and put to both in memory and disk caches.
     func fetchThumbnailImage(for url: URL, size: CGSize) -> Future<UIImage> {
         let promise = Promise<UIImage>()
         
@@ -40,6 +45,15 @@ final class ImageFetcher: ImageFetching {
         if let cachedThumbnail = cachedImages.object(forKey: thumbnailKey) {
             promise.resolve(with: cachedThumbnail)
         } else {
+            let fileUrl = cacheFolderURL?.appendingPathComponent(ImageFetcher.thumbnailFileName(for: url, size: size))
+            if let fileUrl = fileUrl, FileManager.default.fileExists(atPath: fileUrl.path) {
+                if let data = try? Data(contentsOf: fileUrl, options: []), let image = UIImage(data: data) {
+                    cachedImages.setObject(image, forKey: thumbnailKey)
+                    promise.resolve(with: image)
+                    return promise
+                }
+            }
+            
             fetchImage(for: url).observe { [weak self] result in
                 switch result {
                 case .success(let image):
@@ -55,6 +69,10 @@ final class ImageFetcher: ImageFetching {
                     }
                     
                     self?.cachedImages.setObject(thumbnail, forKey: thumbnailKey)
+                    
+                    if let fileUrl = fileUrl, let pngData = thumbnail.pngData() {
+                        try? pngData.write(to: fileUrl)
+                    }
                 
                     promise.resolve(with: thumbnail)
                 case .failure(let error):

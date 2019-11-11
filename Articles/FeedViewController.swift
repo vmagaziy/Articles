@@ -83,8 +83,11 @@ private class TeaserTableViewCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        [teaserImageView, teaserTextLabel, highlightView].forEach(contentView.addSubview)
         
+        addSubview(teaserImageView)
+        contentView.addSubview(teaserTextLabel)
+        addSubview(highlightView)
+
         teaserTextLabel.numberOfLines = 0
         
         teaserImageView.contentMode = .scaleAspectFill
