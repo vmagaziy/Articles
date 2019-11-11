@@ -1,5 +1,4 @@
 # Articles
-=======
 
 Sample iOS application for showing specific articles downloaded from the internet.
 
@@ -23,7 +22,7 @@ The list of articles (*feed*) is presented in [table view](https://developer.app
 
 [Pull to refresh](https://en.wikipedia.org/wiki/Pull-to-refresh) is used to update the feed.
 
-Articles are presented in [text view](https://developer.apple.com/documentation/uikit/uitextview) managed by `ArticleViewController`.  It also shows a special label when there is no selection in the table view (applicable for iPad and plus iPhones).  [Text Kit](https://developer.apple.com/documentation/appkit/textkit) is used for laying out images along with text data, and for that special text attachment containing `UIView` instance is used (see `TextAttachment` and `ImageTextAttachment`). 
+Articles are presented in [text view](https://developer.apple.com/documentation/uikit/uitextview) managed by `ArticleViewController`.  It aslo shows a special label when there is no selection in the table view (applicable for iPad and plus iPhones).  [Text Kit](https://developer.apple.com/documentation/appkit/textkit) is used for laying out images along with text data, and for that special text attachment containing `UIView` instance is used (see `TextAttachment` and `ImageTextAttachment`). 
 
 Images are retrieved asynchronously using the `HTTPClient` entity too and this process is abstracted by the `ImageFetching` protocol.  The concrete implementation of that protocol (`ImageFetcher`) uses both in-memory and disk caches, which in turn allows to avoid their re-fetching from the network once fetched.
 
@@ -51,4 +50,3 @@ Swift coding style is checked by [SwiftLint](https://github.com/realm/SwiftLint)
 ## Known issues
 
 - Minor layout issues can be observed when rotating device
->>>>>>> 676e9ea... Fix typo
