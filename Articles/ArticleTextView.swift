@@ -46,9 +46,10 @@ private extension ArticleTextView {
             let lineFragmentRect = layoutManager.lineFragmentRect(forGlyphAt: index, effectiveRange: nil)
             let location = layoutManager.location(forGlyphAt: index)
             
-            let rect = CGRect(origin: CGPoint(x: 0, y: lineFragmentRect.minY + location.y - attachmentSize.height), size: CGSize(width: bounds.width, height: attachmentSize.height))
+            let isEdgeToEdge = textContainerInset.left < 32
+            let rect = CGRect(origin: CGPoint(x: isEdgeToEdge ? 0 : lineFragmentRect.minX, y: lineFragmentRect.minY + location.y - attachmentSize.height), size: CGSize(width: isEdgeToEdge ? bounds.width : attachmentSize.width, height: attachmentSize.height))
             
-            attachment.view.frame = rect.offsetBy(dx: 0, dy: textContainerInset.top)
+            attachment.view.frame = rect.offsetBy(dx: isEdgeToEdge ? 0 : textContainerInset.left, dy: textContainerInset.top)
         }
     }
     
