@@ -1,39 +1,70 @@
 import Foundation
 
 struct FeedDataProvider: FeedDataProviding {
-    enum Error: Swift.Error {
-        case unknown
-    }
-    
-    func articles() -> Future<[ArticleType]> {
-        var articles: [Article] = []
-        
-        let count = Int(arc4random_uniform(1000))
-        for index in 0..<count {
-            articles.append(Article(title: "TITLE: \(index)", image: URL(string: "https://via.placeholder.com/\(index)")!, publisher: "PUBLISHER: \(index)", sections: []))
-        }
-        
-        let promise = Promise<[ArticleType]>()
-        DispatchQueue.global().asyncAfter(deadline: .now() + 1) {
-            if arc4random() % 7 == 0 {
-                promise.reject(with: Error.unknown)
-            } else {
-                promise.resolve(with: articles)
-            }
-        }
+    private let httpClient: HTTPClient
 
-        return promise
+    private static let endpointURL = URL(string: "https://raw.github.schibsted.io/gist/volodymyr-magazii/baaeb716d87d16218bd2dd9454fb5aa0/raw/e67bf40158ae22fce564a7e4a5b880c17a16c203/Payload.json?token=AAAM1614YuflnMbzsMF11cMFI4pGwF5fks5dzp3wwA%3D%3D")!
+
+    init(httpClient: HTTPClient = HTTPClient()) {
+        self.httpClient = httpClient
+    }
+
+    func articles() -> Future<[ArticleType]> {
+        return httpClient.load(url: FeedDataProvider.endpointURL).transformed { data in
+            let payload = try JSONDecoder().decode(Payload.self, from: data)
+            return payload.articles
+        }
     }
 }
 
-private struct Article: ArticleType {
+private struct Payload: Decodable {
+    let articles: [Article]
+}
+
+private struct Article: Decodable, ArticleType {
+    private enum CodingKeys: String, CodingKey {
+        case title, image, publisher, sectionsImpl = "sections"
+    }
+
     let title: String
     let image: URL?
     let publisher: String?
-    let sections: [SectionType]
+    let sectionsImpl: [Section]
+
+    var sections: [SectionType] { sectionsImpl }
 }
 
-private struct Section: SectionType {
-    let title: String
+private struct Section: Decodable, SectionType {
+    private enum CodingKeys: String, CodingKey {
+        case title, bodyElements = "body_elements"
+    }
+
+    let title: String?
     let bodyElements: [BodyElementType]
 }
+
+extension BodyElementType: Decodable {
+    private enum Keys: String, CodingKey {
+        case imageURL = "image_url"
+    }
+
+    init(from decoder: Decoder) throws {
+        if let text = try? decoder.singleValueContainer().decode(String.self) {
+            self = .text(text)
+        } else if let json = try? decoder.container(keyedBy: Keys.self) {
+            let url = try json.decode(URL.self, forKey: .imageURL)
+            self = .image(url)
+        } else {
+            throw BodyElementType.decodingError(for: decoder)
+        }
+    }
+
+    private static func decodingError(for decoder: Decoder) -> DecodingError {
+        let description = """
+        Expected a String or a Dictionary containing a
+        '\(Keys.imageURL.stringValue)' key with value.
+        """
+        return .typeMismatch(self, .init(codingPath: decoder.codingPath, debugDescription: description))
+    }
+}
+

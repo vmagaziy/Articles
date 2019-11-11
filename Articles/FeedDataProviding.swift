@@ -12,7 +12,7 @@ protocol ArticleType {
 }
 
 protocol SectionType {
-    var title: String { get }
+    var title: String? { get }
     var bodyElements: [BodyElementType] { get }
 }
 
