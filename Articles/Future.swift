@@ -21,6 +21,39 @@ class Future<Value> {
     }
 }
 
+extension Future {
+    func chained<NextValue>(with closure: @escaping (Value) throws -> Future<NextValue>) -> Future<NextValue> {
+        let promise = Promise<NextValue>()
+        let queue = DispatchQueue.global()
+        observe(on: queue) {
+            switch $0 {
+            case .success(let value):
+                do {
+                    let nested = try closure(value)
+                    nested.observe(on: queue) { result in
+                        switch result {
+                        case .success(let value):
+                            promise.resolve(with: value)
+                        case .failure(let error):
+                            promise.reject(with: error)
+                        }
+                    }
+                } catch {
+                    promise.reject(with: error)
+                }
+            case .failure(let error):
+                promise.reject(with: error)
+            }
+        }
+
+        return promise
+    }
+
+    func transformed<NextValue>(with closure: @escaping (Value) throws -> NextValue) -> Future<NextValue> {
+        return chained { try Promise(value: closure($0)) }
+    }
+}
+
 final class Promise<Value>: Future<Value> {
     init(value: Value? = nil) {
         super.init()
