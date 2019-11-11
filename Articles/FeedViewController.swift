@@ -1,6 +1,6 @@
 import UIKit
 
-final class FeedViewController: TableViewController<ArticleType> {
+final class FeedViewController: TableViewController<Article> {
     private let dataProvider: FeedDataProviding
     
     init(dataProvider: FeedDataProviding) {
@@ -45,7 +45,7 @@ final class FeedViewController: TableViewController<ArticleType> {
                 if articles.isEmpty {
                     self.source = .failure(errorMessage)
                 } else {
-                    self.source = .sections(articles.map { TableViewSection<ArticleType>(title: nil, items: [$0]) })
+                    self.source = .sections(articles.map { TableViewSection<Article>(title: nil, items: [$0]) })
                 }
             case .failure(let error):
                 if case .sections(let sections) = self.source, !sections.isEmpty {
@@ -132,8 +132,8 @@ private class TeaserTableViewCell: UITableViewCell {
         teaserTextLabel.frame = CGRect(x: textInsetBounds.minX, y: textInsetBounds.minY + imageHeight, width: textInsetBounds.width, height: textHeight)
     }
         
-    func configure(for article: ArticleType) {
-        teaserTextLabel.attributedText = article.attributedText
+    func configure(for article: Article) {
+        teaserTextLabel.attributedText = article.attributedTeaserText
         if let url = article.image {
             let viewWidth = contentView.bounds.width
             let imageHeight = viewWidth / TeaserTableViewCell.imageRatio
@@ -146,8 +146,8 @@ private class TeaserTableViewCell: UITableViewCell {
     }
 }
 
-private extension ArticleType {
-    var attributedText: NSAttributedString {
+private extension Article {
+    var attributedTeaserText: NSAttributedString {
         let attributedText = NSMutableAttributedString()
         
         let separator = NSAttributedString(string: "\n", attributes: [.font: UIFont.systemFont(ofSize: 5)])
