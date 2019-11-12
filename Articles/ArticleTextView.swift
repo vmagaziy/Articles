@@ -10,13 +10,6 @@ final class ArticleTextView: UITextView {
         }
     }
     
-    var textInsets: UIEdgeInsets = .zero {
-        didSet {
-            guard textInsets != oldValue else { return }
-            setNeedsLayout()
-        }
-    }
-    
     override init(frame: CGRect, textContainer: NSTextContainer?) {
         super.init(frame: frame, textContainer: textContainer)
         
@@ -34,35 +27,33 @@ final class ArticleTextView: UITextView {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        textContainerInset = textInsets
+        
+        let readableContentGuideFrame = readableContentGuide.layoutFrame
+        textContainerInset = UIEdgeInsets(top: 16, left: readableContentGuideFrame.origin.x, bottom: 16, right: bounds.width - readableContentGuideFrame.maxX)
     }
 }
 
 private extension ArticleTextView {
     func layoutAttachments() {
-        for (attachment, range) in textStorage.attachmentsAndRanges {
+        let isEdgeToEdge = textContainerInset.left < 32
+        
+        textStorage.attachmentsAndRanges.forEach { (attachment, range) in
             let index = layoutManager.glyphRange(forCharacterRange: NSRange(location: range.location, length: 1), actualCharacterRange: nil).location
             let attachmentSize = layoutManager.attachmentSize(forGlyphAt: index)
             let lineFragmentRect = layoutManager.lineFragmentRect(forGlyphAt: index, effectiveRange: nil)
             let location = layoutManager.location(forGlyphAt: index)
             
-            let isEdgeToEdge = textContainerInset.left < 32
             let rect = CGRect(origin: CGPoint(x: isEdgeToEdge ? 0 : lineFragmentRect.minX, y: lineFragmentRect.minY + location.y - attachmentSize.height), size: CGSize(width: isEdgeToEdge ? bounds.width : attachmentSize.width, height: attachmentSize.height))
             
             attachment.view.frame = rect.offsetBy(dx: isEdgeToEdge ? 0 : textContainerInset.left, dy: textContainerInset.top)
         }
     }
-    
-    func updateAttachments() {
-        attachments = textStorage.attachmentsAndRanges.map { $0.attachment }
-    }
 }
 
 extension ArticleTextView: NSLayoutManagerDelegate {
     func layoutManager(_ layoutManager: NSLayoutManager, didCompleteLayoutFor textContainer: NSTextContainer?, atEnd layoutFinishedFlag: Bool) {
-        if layoutFinishedFlag {
-            layoutAttachments()
-        }
+        guard layoutFinishedFlag else { return }
+        layoutAttachments()
     }
     
     func layoutManager(_ layoutManager: NSLayoutManager, textContainer: NSTextContainer, didChangeGeometryFrom oldSize: CGSize) {
@@ -74,7 +65,7 @@ extension ArticleTextView: NSLayoutManagerDelegate {
 extension ArticleTextView: NSTextStorageDelegate {
     func textStorage(_ textStorage: NSTextStorage, didProcessEditing editedMask: NSTextStorage.EditActions, range editedRange: NSRange, changeInLength delta: Int) {
         guard editedMask.contains(.editedAttributes) else { return }
-        updateAttachments()
+        attachments = textStorage.attachmentsAndRanges.map { $0.attachment }
     }
 }
 
