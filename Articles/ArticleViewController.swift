@@ -46,10 +46,7 @@ final class ArticleViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        let readableContentGuideFrame = view.readableContentGuide.layoutFrame
-        textView.textInsets = UIEdgeInsets(top: 16, left: readableContentGuideFrame.origin.x, bottom: 16, right: view.bounds.width - readableContentGuideFrame.maxX)
         textView.frame = view.bounds
-
         noSelectionLabel.frame = view.bounds.inset(by: view.layoutMargins)
     }
     
