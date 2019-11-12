@@ -54,7 +54,7 @@ final class HTTPClientTests: XCTestCase {
         let errorExpectation = XCTestExpectation()
         errorExpectation.isInverted = true
         
-        sut.load(url: URL(string: "https//example.com")!).observe { result in
+        sut.load(url: URL(string: "https://example.com")!).observe { result in
             switch result {
             case .success:
                 successExpectation.fulfill()
@@ -74,7 +74,7 @@ final class HTTPClientTests: XCTestCase {
         
         let errorExpectation = XCTestExpectation()
         
-        sut.load(url: URL(string: "https//example.com")!).observe { result in
+        sut.load(url: URL(string: "https://example.com")!).observe { result in
             switch result {
             case .success:
                 successExpectation.fulfill()
