@@ -10,7 +10,7 @@ class Future<Value> {
 
     func observe(on queue: DispatchQueue = .main, _ callback: @escaping Callback) {
         callbacks.append((callback, queue))
-        result.map(callback)
+        result.map(report)
     }
 
     private func report(result: Result<Value, Error>) {
