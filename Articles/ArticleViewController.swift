@@ -29,6 +29,7 @@ final class ArticleViewController: UIViewController {
             title = article?.title
             if let article = article {
                 textView.attributedText = article.attributedText
+                textView.contentOffset.y = -textView.adjustedContentInset.top
                 currentView = textView
             } else {
                 currentView = noSelectionLabel
@@ -71,7 +72,7 @@ private extension Section {
     var attributedText: NSAttributedString {
         var components: [NSAttributedString] = []
         if let title = title {
-            let titleText = NSAttributedString(string: title, attributes: [.font: UIFont.preferredFont(forTextStyle: .title2)])
+            let titleText = NSAttributedString(string: title + "\n", attributes: [.font: UIFont.preferredFont(forTextStyle: .title2)])
             components.append(titleText)
         }
         
