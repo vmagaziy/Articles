@@ -3,7 +3,7 @@ import Foundation
 struct FeedDataProvider: FeedDataProviding {
     private let httpClient: HTTPClient
 
-    private static let endpointURL = URL(string: "https://raw.github.schibsted.io/gist/volodymyr-magazii/baaeb716d87d16218bd2dd9454fb5aa0/raw/e67bf40158ae22fce564a7e4a5b880c17a16c203/Payload.json?token=AAAM1614YuflnMbzsMF11cMFI4pGwF5fks5dzp3wwA%3D%3D")!
+    private static let endpointURL = URL(string: "https://gist.githubusercontent.com/vmagaziy/117f157f1214efbd083c75646d93cb61/raw/b20f132a912310b69b3a0fc3eb3866ebafe6543f/Payload.json")!
 
     init(httpClient: HTTPClient = HTTPClient()) {
         self.httpClient = httpClient
